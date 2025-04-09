@@ -31,21 +31,9 @@ function handleSubmit(event) {
   }
 
   getImagesByQuery(searchText)
-    .then(response => {
-      if (!response.data.hits.length) {
-        iziToast.error({
-          message:
-            'Sorry, there are no images matching your search query. Please try again!',
-          position: 'topRight',
-        });
-      }
-      const imgData = response.data.hits;
-
+    .then(imgData => {
       clearGallery();
-
       createGallery(imgData);
     })
-
-    .catch(error => console.log(error))
     .finally(hideLoader());
 }
