@@ -1,6 +1,6 @@
-// Ця функція повинна приймати один параметр query (пошукове слово, яке є рядком),
-// здійснювати HTTP-запит і повертати значення властивості data з отриманої відповіді.
 import axios from 'axios';
+import iziToast from 'izitoast';
+import 'izitoast/dist/css/iziToast.min.css';
 
 const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '49684635-7a6aa23e2b6de301ea62c53b0';
@@ -14,5 +14,15 @@ export default function getImagesByQuery(searchText) {
       orientation: 'horizontal',
       safesearch: 'true',
     },
+  }).then(response => {
+    if (!response.data.hits.length) {
+      iziToast.error({
+        message:
+          'Sorry, there are no images matching your search query. Please try again!',
+        position: 'topRight',
+      });
+    }
+
+    return response.data.hits;
   });
 }
